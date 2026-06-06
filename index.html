@@ -1621,22 +1621,7 @@
       });
 
      
-      document.addEventListener(
-        "touchstart",
-        (e) => {
-          if (e.target.closest("#input-bar")) return;
-          const t = e.touches[0];
-          const msg =
-            DEFAULT_MESSAGES[
-              Math.floor(Math.random() * DEFAULT_MESSAGES.length)
-            ];
-          spawnRipple(t.clientX, t.clientY, msg.shadow);
-          spawnBurst(t.clientX, t.clientY, 50);
-          spawnMessage(t.clientX, t.clientY, msg);
-          bloomBurst();
-        },
-        { passive: true },
-      );
+    
 
       const GLOW_COLORS = [
         "rgba(56,162,165,0.14)",
