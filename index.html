@@ -1,0 +1,1493 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tulips</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Crimson+Pro:ital,wght@0,200;0,300;1,200;1,300&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        background: #03040a;
+        overflow: hidden;
+      }
+
+      body {
+        background: radial-gradient(
+          ellipse 80% 60% at 50% 55%,
+          #0a0c1e 0%,
+          #04050e 55%,
+          #010208 100%
+        );
+        overflow-x: hidden;
+        font-family: "Crimson Pro", serif;
+      }
+
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(
+          ellipse 85% 80% at 50% 50%,
+          transparent 35%,
+          rgba(0, 0, 0, 0.85) 100%
+        );
+        pointer-events: none;
+        z-index: 10;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 11;
+        opacity: 0.6;
+      }
+
+      .amb {
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(100px);
+        pointer-events: none;
+        z-index: 0;
+        animation: ambPulse var(--t, 8s) ease-in-out infinite alternate;
+      }
+      .amb1 {
+        width: 500px;
+        height: 380px;
+        left: 28%;
+        top: 28%;
+        background: rgba(56, 162, 165, 0.09);
+        --t: 9s;
+      }
+      .amb2 {
+        width: 360px;
+        height: 340px;
+        left: 54%;
+        top: 38%;
+        background: rgba(150, 0, 233, 0.07);
+        --t: 12s;
+      }
+      .amb3 {
+        width: 300px;
+        height: 240px;
+        left: 18%;
+        top: 48%;
+        background: rgba(20, 60, 255, 0.06);
+        --t: 7s;
+      }
+      .amb4 {
+        width: 280px;
+        height: 200px;
+        left: 60%;
+        top: 62%;
+        background: rgba(255, 60, 0, 0.05);
+        --t: 10s;
+      }
+
+      @keyframes ambPulse {
+        from {
+          opacity: 0.4;
+          transform: scale(1);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1.18);
+        }
+      }
+
+      #particles {
+        position: fixed;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      #shimmer {
+        position: fixed;
+        inset: 0;
+        z-index: 2;
+        pointer-events: none;
+      }
+
+      #svg-wrap {
+        position: fixed;
+        z-index: 5;
+        width: 100%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        animation: wakeUp 2.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+      }
+      @keyframes wakeUp {
+        from {
+          opacity: 0;
+          transform: translate(-50%, -52%) scale(0.9);
+        }
+        to {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1);
+        }
+      }
+      #svg-wrap svg {
+        width: 100%;
+        height: auto;
+      }
+
+      .svgp {
+        opacity: 0;
+        animation:
+          growBloom var(--ed, 1.2s) cubic-bezier(0.25, 1.2, 0.5, 1)
+            var(--ed2, 0s) forwards,
+          var(--ia, float1) var(--id, 7s) ease-in-out var(--id2, 0s) infinite;
+      }
+      @keyframes growBloom {
+        0% {
+          opacity: 0;
+          transform: scale(0.05) rotate(-4deg);
+          filter: brightness(3) blur(3px);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.1) rotate(0.8deg);
+          filter: brightness(1.2) blur(0px);
+        }
+        72% {
+          transform: scale(0.96) rotate(-0.3deg);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1) rotate(0deg);
+          filter: brightness(1) blur(0px);
+        }
+      }
+
+      @keyframes float1 {
+        0%,
+        100% {
+          transform: translate(0, 0) rotate(0deg);
+        }
+        30% {
+          transform: translate(2px, -6px) rotate(0.4deg);
+        }
+        65% {
+          transform: translate(-2px, 4px) rotate(-0.35deg);
+        }
+      }
+      @keyframes float2 {
+        0%,
+        100% {
+          transform: translate(0, 0) rotate(0deg);
+        }
+        40% {
+          transform: translate(-4px, -5px) rotate(-0.55deg);
+        }
+        75% {
+          transform: translate(3px, 5px) rotate(0.45deg);
+        }
+      }
+      @keyframes float3 {
+        0%,
+        100% {
+          transform: translate(0, 0) rotate(0deg);
+        }
+        25% {
+          transform: translate(4px, 4px) rotate(0.35deg);
+        }
+        70% {
+          transform: translate(-3px, -5px) rotate(-0.5deg);
+        }
+      }
+      @keyframes float4 {
+        0%,
+        100% {
+          transform: translate(0, 0) rotate(0deg);
+        }
+        35% {
+          transform: translate(-4px, 5px) rotate(-0.45deg);
+        }
+        70% {
+          transform: translate(4px, -4px) rotate(0.55deg);
+        }
+      }
+      @keyframes float5 {
+        0%,
+        100% {
+          transform: translate(0, 0) rotate(0deg);
+        }
+        45% {
+          transform: translate(5px, -4px) rotate(0.6deg);
+        }
+        80% {
+          transform: translate(-4px, 4px) rotate(-0.4deg);
+        }
+      }
+      @keyframes float6 {
+        0%,
+        100% {
+          transform: translate(0, 0) rotate(0deg);
+        }
+        30% {
+          transform: translate(-5px, -3px) rotate(-0.55deg);
+        }
+        65% {
+          transform: translate(3px, 6px) rotate(1.5deg);
+        }
+      }
+      @keyframes float7 {
+        0%,
+        100% {
+          transform: translate(0, 0) rotate(0deg);
+        }
+        50% {
+          transform: translate(0, -8px) rotate(1deg);
+        }
+      }
+      @keyframes breathe {
+        0%,
+        100% {
+          transform: scaleY(1) translate(0, 0);
+          opacity: 1;
+        }
+        50% {
+          transform: scaleY(1.025) translate(0, -12px);
+          opacity: 0.75;
+        }
+      }
+
+      @keyframes glowTeal {
+        0%,
+        100% {
+          filter: drop-shadow(0 0 5px rgba(56, 162, 165, 0.7))
+            drop-shadow(0 0 16px rgba(56, 162, 165, 0.25));
+        }
+        50% {
+          filter: drop-shadow(0 0 14px rgba(56, 162, 165, 1))
+            drop-shadow(0 0 40px rgba(56, 162, 165, 0.55))
+            drop-shadow(0 0 80px rgba(56, 162, 165, 0.15));
+        }
+      }
+      @keyframes glowFire {
+        0%,
+        100% {
+          filter: drop-shadow(0 0 5px rgba(255, 100, 0, 0.7))
+            drop-shadow(0 0 16px rgba(255, 40, 0, 0.25));
+        }
+        50% {
+          filter: drop-shadow(0 0 16px rgba(255, 140, 0, 1))
+            drop-shadow(0 0 45px rgba(255, 60, 0, 0.6))
+            drop-shadow(0 0 90px rgba(255, 30, 0, 0.2));
+        }
+      }
+      @keyframes glowPink {
+        0%,
+        100% {
+          filter: drop-shadow(0 0 5px rgba(240, 0, 240, 0.7))
+            drop-shadow(0 0 16px rgba(200, 0, 255, 0.25));
+        }
+        50% {
+          filter: drop-shadow(0 0 16px rgba(255, 0, 255, 1))
+            drop-shadow(0 0 45px rgba(200, 0, 255, 0.6))
+            drop-shadow(0 0 90px rgba(180, 0, 255, 0.2));
+        }
+      }
+      @keyframes glowBlue {
+        0%,
+        100% {
+          filter: drop-shadow(0 0 5px rgba(80, 60, 255, 0.7))
+            drop-shadow(0 0 16px rgba(148, 0, 233, 0.25));
+        }
+        50% {
+          filter: drop-shadow(0 0 16px rgba(100, 80, 255, 1))
+            drop-shadow(0 0 45px rgba(148, 0, 233, 0.6))
+            drop-shadow(0 0 90px rgba(100, 0, 255, 0.2));
+        }
+      }
+
+      .pulse-teal {
+        animation:
+          growBloom var(--ed, 1.2s) cubic-bezier(0.25, 1.2, 0.5, 1)
+            var(--ed2, 0s) forwards,
+          var(--ia, float1) var(--id, 7s) ease-in-out var(--id2, 0s) infinite,
+          glowTeal 3.2s ease-in-out var(--id2, 0s) infinite;
+      }
+      .pulse-fire {
+        animation:
+          growBloom var(--ed, 1.2s) cubic-bezier(0.25, 1.2, 0.5, 1)
+            var(--ed2, 0s) forwards,
+          var(--ia, float1) var(--id, 7s) ease-in-out var(--id2, 0s) infinite,
+          glowFire 2.8s ease-in-out var(--id2, 0s) infinite;
+      }
+      .pulse-pink {
+        animation:
+          growBloom var(--ed, 1.2s) cubic-bezier(0.25, 1.2, 0.5, 1)
+            var(--ed2, 0s) forwards,
+          var(--ia, float1) var(--id, 7s) ease-in-out var(--id2, 0s) infinite,
+          glowPink 3.6s ease-in-out var(--id2, 0s) infinite;
+      }
+      .pulse-blue {
+        animation:
+          growBloom var(--ed, 1.2s) cubic-bezier(0.25, 1.2, 0.5, 1)
+            var(--ed2, 0s) forwards,
+          var(--ia, float1) var(--id, 7s) ease-in-out var(--id2, 0s) infinite,
+          glowBlue 4.1s ease-in-out var(--id2, 0s) infinite;
+      }
+
+      .card {
+        position: fixed;
+        z-index: 20;
+        pointer-events: none;
+        opacity: 0;
+        animation: cardFloat var(--cf-dur, 22s) var(--cf-ease, ease-in-out)
+          var(--cf-delay, 0s) infinite;
+      }
+
+      .card-inner {
+        background: rgba(255, 255, 255, 0.04);
+        border: 0.5px solid rgba(255, 255, 255, 0.12);
+        border-radius: 16px;
+        padding: 18px 24px;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow:
+          0 0 0 0.5px rgba(255, 255, 255, 0.06) inset,
+          0 8px 32px rgba(0, 0, 0, 0.4),
+          var(--card-glow, 0 0 40px rgba(56, 162, 165, 0.15));
+        transform: rotate(var(--card-rot, 0deg));
+      }
+
+      .card-inner p {
+        font-family: "Cormorant Garamond", serif;
+        font-weight: 300;
+        font-style: italic;
+        font-size: var(--card-size, 16px);
+        color: rgba(255, 255, 255, 0.75);
+        letter-spacing: 0.03em;
+        line-height: 1.5;
+        white-space: nowrap;
+      }
+
+    
+      @keyframes cardFloat {
+        0% {
+          opacity: 0;
+          transform: translateY(0px) translateX(0px) scale(0.9);
+        }
+        8% {
+          opacity: 1;
+          transform: translateY(-6px) translateX(2px) scale(1);
+        }
+        50% {
+          opacity: 0.85;
+          transform: translateY(-22px) translateX(-4px) scale(1.01);
+        }
+        88% {
+          opacity: 1;
+          transform: translateY(-38px) translateX(3px) scale(1);
+        }
+        96% {
+          opacity: 0;
+          transform: translateY(-44px) translateX(0px) scale(0.95);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(0px) translateX(0px) scale(0.9);
+        }
+      }
+
+     
+      #aurora {
+        position: fixed;
+        z-index: 3;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        opacity: 0.35;
+        animation: auroraDrift 18s ease-in-out infinite alternate;
+      }
+      @keyframes auroraDrift {
+        0% {
+          filter: hue-rotate(0deg) saturate(1.2);
+        }
+        100% {
+          filter: hue-rotate(30deg) saturate(1.6);
+        }
+      }
+
+      #title {
+        position: fixed;
+        bottom: 6vh;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 25;
+        text-align: center;
+        opacity: 0;
+        animation: fadeTitle 2s ease 2.8s forwards;
+      }
+      @keyframes fadeTitle {
+        from {
+          opacity: 0;
+          transform: translateX(-50%) translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(-50%) translateY(0);
+        }
+      }
+      #title h1 {
+        font-family: "Cormorant Garamond", serif;
+        font-weight: 300;
+        font-size: clamp(11px, 1.4vw, 15px);
+        letter-spacing: 0.32em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.2);
+      }
+      #title h1 span {
+        color: rgba(56, 162, 165, 0.6);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="amb amb1"></div>
+    <div class="amb amb2"></div>
+    <div class="amb amb3"></div>
+    <div class="amb amb4"></div>
+
+    <canvas id="particles"></canvas>
+    <canvas id="shimmer"></canvas>
+
+    <svg
+      id="aurora"
+      viewBox="0 0 1920 1080"
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="xMidYMid slice"
+    >
+      <defs>
+        <radialGradient id="ag1" cx="50%" cy="50%" r="55%">
+          <stop offset="0%" stop-color="rgba(56,162,165,0.18)" />
+          <stop offset="100%" stop-color="rgba(56,162,165,0)" />
+        </radialGradient>
+        <radialGradient id="ag2" cx="65%" cy="45%" r="40%">
+          <stop offset="0%" stop-color="rgba(148,0,233,0.12)" />
+          <stop offset="100%" stop-color="rgba(148,0,233,0)" />
+        </radialGradient>
+        <radialGradient id="ag3" cx="35%" cy="55%" r="35%">
+          <stop offset="0%" stop-color="rgba(60,80,255,0.10)" />
+          <stop offset="100%" stop-color="rgba(60,80,255,0)" />
+        </radialGradient>
+      </defs>
+      <ellipse cx="960" cy="540" rx="900" ry="500" fill="url(#ag1)" />
+      <ellipse cx="1200" cy="480" rx="700" ry="380" fill="url(#ag2)" />
+      <ellipse cx="680" cy="590" rx="600" ry="320" fill="url(#ag3)" />
+    </svg>
+
+    <div
+      class="card"
+      style="
+        --cf-dur: 24s;
+        --cf-delay: 1.8s;
+        --cf-ease: ease-in-out;
+        left: 8%;
+        top: 18%;
+        --card-rot: -2deg;
+        --card-glow: 0 0 50px rgba(56, 162, 165, 0.2);
+        --line-h: 80px;
+      "
+    >
+      <div class="card-inner">
+       
+        <p>I love you 💖</p>
+      </div>
+    </div>
+
+    <div
+      class="card"
+      style="
+        --cf-dur: 20s;
+        --cf-delay: 5s;
+        --cf-ease: ease-in-out;
+        right: 9%;
+        top: 14%;
+        --card-rot: 2.5deg;
+        --card-glow: 0 0 50px rgba(200, 0, 255, 0.18);
+        --line-h: 60px;
+        --card-size: 15px;
+      "
+    >
+      <div class="card-inner" style="border-color: rgba(200, 0, 255, 0.15)">
+        <p>You are my universe 💫</p>
+      </div>
+    </div>
+
+    <div
+      class="card"
+      style="
+        --cf-dur: 28s;
+        --cf-delay: 9s;
+        --cf-ease: ease-in-out;
+        left: 4%;
+        top: 42%;
+        --card-rot: -1.5deg;
+        --card-glow: 0 0 50px rgba(80, 80, 255, 0.2);
+        --line-h: 50px;
+        --card-size: 14px;
+      "
+    >
+      <div class="card-inner" style="border-color: rgba(80, 80, 255, 0.15)">
+        <p>I wuv you 💗</p>
+      </div>
+    </div>
+
+    <div
+      class="card"
+      style="
+        --cf-dur: 22s;
+        --cf-delay: 3s;
+        --cf-ease: ease-in-out;
+        right: 6%;
+        top: 38%;
+        --card-rot: 1.8deg;
+        --card-glow: 0 0 50px rgba(255, 100, 0, 0.15);
+        --line-h: 70px;
+        --card-size: 15px;
+      "
+    >
+      <div class="card-inner" style="border-color: rgba(255, 100, 0, 0.12)">
+        <p>You are my Waifu 😚</p>
+      </div>
+    </div>
+
+    <div
+      class="card"
+      style="
+        --cf-dur: 26s;
+        --cf-delay: 13s;
+        --cf-ease: ease-in-out;
+        left: 10%;
+        top: 62%;
+        --card-rot: -3deg;
+        --card-glow: 0 0 50px rgba(56, 162, 165, 0.18);
+        --line-h: 40px;
+        --card-size: 14px;
+      "
+    >
+      <div class="card-inner">
+        <p>You make me happy 💛</p>
+      </div>
+    </div>
+
+    <div
+      class="card"
+      style="
+        --cf-dur: 19s;
+        --cf-delay: 7s;
+        --cf-ease: ease-in-out;
+        right: 8%;
+        top: 58%;
+        --card-rot: 2deg;
+        --card-glow: 0 0 50px rgba(200, 0, 255, 0.15);
+        --line-h: 45px;
+        --card-size: 13px;
+      "
+    >
+      <div class="card-inner" style="border-color: rgba(200, 0, 255, 0.12)">
+        <p>Meri mohabbat 💘</p>
+      </div>
+    </div>
+
+    <div
+      class="card"
+      style="
+        --cf-dur: 32s;
+        --cf-delay: 17s;
+        --cf-ease: ease-in-out;
+        left: 22%;
+        top: 8%;
+        --card-rot: -1deg;
+        --card-glow: 0 0 50px rgba(80, 160, 255, 0.18);
+        --line-h: 90px;
+        --card-size: 15px;
+      "
+    >
+      <div class="card-inner" style="border-color: rgba(80, 160, 255, 0.15)">
+        <p>You are home to me 🫂</p>
+      </div>
+    </div>
+
+    <div id="svg-wrap">
+      <svg
+        id="Layer_2"
+        xmlns="http://www.w3.org/2000/svg"
+        version="1.1"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        viewBox="0 0 1920 1080"
+      >
+        <defs>
+          <linearGradient
+            id="lg"
+            x1="917.34"
+            y1="409.22"
+            x2="945.51"
+            y2="606.44"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0" stop-color="#fff" stop-opacity=".3" />
+            <stop offset=".82" stop-color="#38a2a5" />
+          </linearGradient>
+          <linearGradient
+            id="lg2"
+            x1="1074.36"
+            y1="264.24"
+            x2="1111.42"
+            y2="523.69"
+            gradientTransform="translate(-1.22 426.51) rotate(19.01) scale(1 .25)"
+            xlink:href="#lg"
+          />
+          <linearGradient
+            id="lg3"
+            x1="1459.45"
+            y1="-334.65"
+            x2="1509.49"
+            y2="15.59"
+            gradientTransform="translate(1844.09 -297.33) rotate(136.02) scale(1 -.42)"
+            xlink:href="#lg"
+          />
+          <linearGradient
+            id="lg4"
+            x1="1354.25"
+            y1="140.26"
+            x2="1394.97"
+            y2="425.3"
+            gradientTransform="translate(2252.89 135.05) rotate(171.73) scale(1 -.66)"
+            xlink:href="#lg"
+          />
+          <linearGradient
+            id="lg5"
+            x1="1273.96"
+            y1="381.14"
+            x2="1304.98"
+            y2="598.34"
+            gradientTransform="translate(2376.89 592.73) rotate(-169.31) scale(1 -.66)"
+            xlink:href="#lg"
+          />
+          <linearGradient
+            id="lg6"
+            x1="949.6"
+            y1="318.82"
+            x2="978.91"
+            y2="523.99"
+            gradientTransform="translate(-154.04 592.73) rotate(-10.69) scale(1 .66)"
+            xlink:href="#lg"
+          />
+          <linearGradient
+            id="lg7"
+            x1="1076.62"
+            y1="348.3"
+            x2="1109.98"
+            y2="581.79"
+            gradientTransform="translate(145.11 1.75) rotate(19.01) scale(1 .66)"
+            xlink:href="#lg"
+          />
+          <linearGradient
+            id="lg8"
+            x1="1091.76"
+            y1="956.9"
+            x2="790.19"
+            y2="434.57"
+            xlink:href="#lg"
+          />
+          <linearGradient
+            id="lg9"
+            x1="976.67"
+            y1="152.37"
+            x2="940.67"
+            y2="335.89"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0" stop-color="#ff0" stop-opacity=".3" />
+            <stop offset=".17" stop-color="rgba(236,180,13,.57)" />
+            <stop offset=".44" stop-color="rgba(216,103,26,.85)" />
+            <stop offset="1" stop-color="#ce3e22" />
+          </linearGradient>
+          <linearGradient
+            id="lg10"
+            x1="883.5"
+            y1="233.29"
+            x2="966.11"
+            y2="233.29"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0" stop-color="#ff0" stop-opacity=".3" />
+            <stop offset=".4" stop-color="rgba(229,155,17,.66)" />
+            <stop offset="1" stop-color="#ce3e22" />
+          </linearGradient>
+          <linearGradient
+            id="lg11"
+            x1="1019.4"
+            y1="153.52"
+            x2="961.1"
+            y2="313.56"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0" stop-color="#ff0" stop-opacity=".3" />
+            <stop offset=".3" stop-color="rgba(227,147,18,.69)" />
+            <stop offset="1" stop-color="#ce3e22" />
+          </linearGradient>
+          <linearGradient
+            id="lg12"
+            x1="866.87"
+            y1="177.18"
+            x2="938.87"
+            y2="388.48"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0" stop-color="#ff0" stop-opacity=".3" />
+            <stop offset=".28" stop-color="rgba(222,128,22,.76)" />
+            <stop offset="1" stop-color="#ce3e22" />
+          </linearGradient>
+          <linearGradient
+            id="lg13"
+            x1="851.17"
+            y1="234.84"
+            x2="933.73"
+            y2="292.75"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0" stop-color="#ff0" stop-opacity=".3" />
+            <stop offset=".27" stop-color="rgba(222,125,22,.77)" />
+            <stop offset="1" stop-color="#ce3e22" />
+          </linearGradient>
+          <linearGradient
+            id="lg14"
+            x1="1045.58"
+            y1="257.64"
+            x2="936.41"
+            y2="249.43"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0" stop-color="#ff0" stop-opacity=".3" />
+            <stop offset=".27" stop-color="rgba(222,126,22,.77)" />
+            <stop offset="1" stop-color="#ce3e22" />
+          </linearGradient>
+          <linearGradient
+            id="lg15"
+            x1="940.05"
+            y1="804.32"
+            x2="1095.04"
+            y2="804.32"
+            xlink:href="#lg"
+          />
+          <linearGradient
+            id="lg16"
+            x1="1245.94"
+            y1="322.81"
+            x2="1209.94"
+            y2="506.34"
+            gradientTransform="translate(163.48 -369.06) rotate(21.76)"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0" stop-color="lime" stop-opacity=".3" />
+            <stop offset=".31" stop-color="rgba(189,65,189,.82)" />
+            <stop offset="1" stop-color="#f0f" />
+          </linearGradient>
+          <linearGradient
+            id="lg17"
+            x1="1152.77"
+            y1="403.73"
+            x2="1235.38"
+            y2="403.73"
+            gradientTransform="translate(163.48 -369.06) rotate(21.76)"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0" stop-color="lime" stop-opacity=".3" />
+            <stop offset=".48" stop-color="rgba(161,93,161,.74)" />
+            <stop offset="1" stop-color="#f0f" />
+          </linearGradient>
+          <linearGradient
+            id="lg18"
+            x1="1288.68"
+            y1="323.96"
+            x2="1230.37"
+            y2="484.01"
+            gradientTransform="translate(163.48 -369.06) rotate(21.76)"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0" stop-color="lime" stop-opacity=".3" />
+            <stop offset=".25" stop-color="rgba(195,59,195,.84)" />
+            <stop offset="1" stop-color="#f0f" />
+          </linearGradient>
+          <linearGradient
+            id="lg19"
+            x1="1136.15"
+            y1="347.63"
+            x2="1208.15"
+            y2="558.93"
+            gradientTransform="translate(163.48 -369.06) rotate(21.76)"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0" stop-color="lime" stop-opacity=".3" />
+            <stop offset=".35" stop-color="rgba(176,78,176,.79)" />
+            <stop offset="1" stop-color="#f0f" />
+          </linearGradient>
+          <linearGradient
+            id="lg20"
+            x1="1120.44"
+            y1="405.29"
+            x2="1203.01"
+            y2="463.2"
+            gradientTransform="translate(163.48 -369.06) rotate(21.76)"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0" stop-color="lime" stop-opacity=".3" />
+            <stop offset=".29" stop-color="rgba(190,64,190,.82)" />
+            <stop offset="1" stop-color="#f0f" />
+          </linearGradient>
+          <linearGradient
+            id="lg21"
+            x1="1314.86"
+            y1="428.09"
+            x2="1205.68"
+            y2="419.87"
+            gradientTransform="translate(163.48 -369.06) rotate(21.76)"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0" stop-color="lime" stop-opacity=".3" />
+            <stop offset=".31" stop-color="rgba(187,67,187,.82)" />
+            <stop offset="1" stop-color="#f0f" />
+          </linearGradient>
+          <linearGradient
+            id="lg22"
+            x1="1672.16"
+            y1="811.81"
+            x2="1827.15"
+            y2="811.81"
+            gradientTransform="translate(2449.69 -238.22) rotate(171.66) scale(1 -1)"
+            xlink:href="#lg"
+          />
+          <linearGradient
+            id="lg23"
+            x1="1928.66"
+            y1="58.38"
+            x2="1892.66"
+            y2="241.9"
+            gradientTransform="translate(2234.4 -579.65) rotate(149.9) scale(1 -1)"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0" stop-color="blue" stop-opacity=".3" />
+            <stop offset=".3" stop-color="rgba(108,0,238,.81)" />
+            <stop offset="1" stop-color="#9400e9" />
+          </linearGradient>
+          <linearGradient
+            id="lg24"
+            x1="1835.5"
+            y1="139.29"
+            x2="1918.11"
+            y2="139.29"
+            gradientTransform="translate(2234.4 -579.65) rotate(149.9) scale(1 -1)"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0" stop-color="blue" stop-opacity=".3" />
+            <stop offset=".5" stop-color="rgba(98,0,240,.76)" />
+            <stop offset="1" stop-color="#9400e9" />
+          </linearGradient>
+          <linearGradient
+            id="lg25"
+            x1="1971.4"
+            y1="59.53"
+            x2="1913.1"
+            y2="219.57"
+            gradientTransform="translate(2234.4 -579.65) rotate(149.9) scale(1 -1)"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0" stop-color="blue" stop-opacity=".3" />
+            <stop offset=".25" stop-color="rgba(112,0,238,.83)" />
+            <stop offset="1" stop-color="#9400e9" />
+          </linearGradient>
+          <linearGradient
+            id="lg26"
+            x1="1818.87"
+            y1="83.19"
+            x2="1890.87"
+            y2="294.49"
+            gradientTransform="translate(2234.4 -579.65) rotate(149.9) scale(1 -1)"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0" stop-color="blue" stop-opacity=".3" />
+            <stop offset=".35" stop-color="rgba(101,0,239,.78)" />
+            <stop offset="1" stop-color="#9400e9" />
+          </linearGradient>
+          <linearGradient
+            id="lg27"
+            x1="1803.16"
+            y1="140.85"
+            x2="1885.73"
+            y2="198.76"
+            gradientTransform="translate(2234.4 -579.65) rotate(149.9) scale(1 -1)"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0" stop-color="blue" stop-opacity=".3" />
+            <stop offset=".29" stop-color="rgba(109,0,238,.82)" />
+            <stop offset="1" stop-color="#9400e9" />
+          </linearGradient>
+          <linearGradient
+            id="lg28"
+            x1="1997.58"
+            y1="163.65"
+            x2="1888.41"
+            y2="155.43"
+            gradientTransform="translate(2234.4 -579.65) rotate(149.9) scale(1 -1)"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0" stop-color="blue" stop-opacity=".3" />
+            <stop offset=".31" stop-color="rgba(107,0,238,.81)" />
+            <stop offset="1" stop-color="#9400e9" />
+          </linearGradient>
+        </defs>
+
+        <path
+          class="svgp pulse-teal"
+          style="
+            --ed: 1.1s;
+            --ed2: 0.05s;
+            --ia: float1;
+            --id: 7.1s;
+            --id2: 0s;
+            transform-origin: 940px 565px;
+          "
+          fill="url(#lg)"
+          d="M939.81,525.3c7.19-103.3,23.16-114,39.68-126.15-13.96,63.69,19.78,516.5-35.35,642.67"
+        />
+        <path
+          class="svgp pulse-teal"
+          style="
+            --ed: 1.1s;
+            --ed2: 0.15s;
+            --ia: float2;
+            --id: 8.3s;
+            --id2: 0.4s;
+            transform-origin: 1040px 920px;
+          "
+          fill="url(#lg2)"
+          d="M981.12,918.51c15.19-22.02,89.27-54.03,105.88-51.51-72,59-55,169-143.74,174.71"
+        />
+        <path
+          class="svgp pulse-teal"
+          style="
+            --ed: 1.1s;
+            --ed2: 0.25s;
+            --ia: float3;
+            --id: 9s;
+            --id2: 0.8s;
+            transform-origin: 800px 800px;
+          "
+          fill="url(#lg3)"
+          d="M781.52,699.06c-29.86-32.38-85.55-48.95-119.25-58.04,113.32,93.82,109.37,277.67,275.73,394.98"
+        />
+        <path
+          class="svgp pulse-teal"
+          style="
+            --ed: 1.1s;
+            --ed2: 0.35s;
+            --ia: float4;
+            --id: 7.8s;
+            --id2: 1.2s;
+            transform-origin: 940px 608px;
+          "
+          fill="url(#lg4)"
+          d="M940.84,607.78c-8.84-67.78-48.41-141.36-72.84-184.78,48.86,222.18-8.48,299.44,74,601"
+        />
+        <path
+          class="svgp pulse-teal"
+          style="
+            --ed: 1.1s;
+            --ed2: 0.45s;
+            --ia: float5;
+            --id: 8.7s;
+            --id2: 1.6s;
+            transform-origin: 1020px 785px;
+          "
+          fill="url(#lg5)"
+          d="M1028,781c19-62,18-142,9-191-26,226-77,139-97,451"
+        />
+        <path
+          class="svgp pulse-teal"
+          style="
+            --ed: 1.1s;
+            --ed2: 0.55s;
+            --ia: float6;
+            --id: 7.5s;
+            --id2: 0.3s;
+            transform-origin: 860px 785px;
+          "
+          fill="url(#lg6)"
+          d="M823.16,782.55c-5.55-68.16,35.48-165.68,50.23-176.61-73.09,218.99,109.37,340.22,70.61,432.06"
+        />
+        <path
+          class="svgp pulse-teal"
+          style="
+            --ed: 1.1s;
+            --ed2: 0.65s;
+            --ia: float1;
+            --id: 9.2s;
+            --id2: 0.7s;
+            transform-origin: 1100px 720px;
+          "
+          fill="url(#lg7)"
+          d="M1046.86,718.51c28.95-61.95,112.92-126.33,131.14-128.51-172,154-158.62,390.82-237.8,451.39"
+        />
+
+        <path
+          class="svgp pulse-teal"
+          style="
+            --ed: 1.3s;
+            --ed2: 0.7s;
+            --ia: breathe;
+            --id: 5.5s;
+            --id2: 0s;
+            transform-origin: 940px 680px;
+          "
+          fill="url(#lg8)"
+          d="M938.41,1028.5s-9.79-613-5.87-656c3.92-43,11.25-16,10.27,0s6.53,642,4.98,656c-1.55,14-4.48,22-9.38,0Z"
+        />
+
+        <path
+          class="svgp pulse-fire"
+          style="
+            --ed: 1s;
+            --ed2: 0.8s;
+            --ia: float7;
+            --id: 4.2s;
+            --id2: 0.1s;
+            transform-origin: 940px 240px;
+          "
+          fill="url(#lg9)"
+          d="M918.5,324.5c-5.67,24.86,20,48,51,34s31.61-194.83-29.69-237.91c4.69,46.91-8.31,146.91-21.31,203.91Z"
+        />
+        <path
+          class="svgp pulse-fire"
+          style="
+            --ed: 1s;
+            --ed2: 0.9s;
+            --ia: float3;
+            --id: 5.1s;
+            --id2: 0.5s;
+            transform-origin: 924px 240px;
+          "
+          fill="url(#lg10)"
+          d="M907.5,340.5c16.91,19.08,55.25-15.1,58-49,3-37-5-94-25.69-170.91-64.31,69.91-71.31,175.91-32.31,219.91Z"
+        />
+        <path
+          class="svgp pulse-fire"
+          style="
+            --ed: 1s;
+            --ed2: 1s;
+            --ia: float4;
+            --id: 6s;
+            --id2: 0.9s;
+            transform-origin: 974px 240px;
+          "
+          fill="url(#lg11)"
+          d="M927.16,303.57c-8.36,22.7,2.85,53.26,25.53,49.46,22.68-3.8,59.98-23.24,65.03-65.66,7.26-60.92-38.79-152.69-23.53-176.54-33.68,22.89-16.68,83.43-21.25,115.1-7.51,51.96-30.06,34.96-45.79,77.64Z"
+        />
+        <path
+          class="svgp pulse-fire"
+          style="
+            --ed: 1s;
+            --ed2: 1.1s;
+            --ia: float7;
+            --id: 4.8s;
+            --id2: 1.3s;
+            transform-origin: 906px 270px;
+          "
+          fill="url(#lg12)"
+          d="M945.19,313.02c6.78,23.22-6.5,52.94-28.87,47.59-22.37-5.35-58.24-27.31-60.37-69.98-3.05-61.28,49.2-149.66,35.61-174.51,32.03,25.15,10.9,84.38,13.29,116.29,3.92,52.35,27.59,36.95,40.34,80.61Z"
+        />
+        <path
+          class="svgp pulse-fire"
+          style="
+            --ed: 1s;
+            --ed2: 1.2s;
+            --ia: float2;
+            --id: 5.5s;
+            --id2: 0.2s;
+            transform-origin: 948px 270px;
+          "
+          fill="url(#lg13)"
+          d="M947.46,316.5c12,21,6,53-17,53-23,0-63-13-75-54-17.23-58.88,13-157-6-178,37,17,30.25,79.52,40,110,16,50,35.43,29.51,58,69Z"
+        />
+        <path
+          class="svgp pulse-fire"
+          style="
+            --ed: 1s;
+            --ed2: 1.3s;
+            --ia: float5;
+            --id: 6.3s;
+            --id2: 0.6s;
+            transform-origin: 975px 250px;
+          "
+          fill="url(#lg14)"
+          d="M933.5,316.5c-12,21-6,53,17,53s63-13,75-54c17.23-58.88-13-157,6-178-37,17-30.25,79.52-40,110-16,50-35.43,29.51-58,69Z"
+        />
+
+        <path
+          class="svgp pulse-teal"
+          style="
+            --ed: 1.2s;
+            --ed2: 0.5s;
+            --ia: float6;
+            --id: 6.8s;
+            --id2: 1.1s;
+            transform-origin: 1015px 900px;
+          "
+          fill="url(#lg15)"
+          d="M940.07,1031.16s129.3-422.43,142.74-450.62,14.3-7.42,9.75,3.22c-4.54,10.64-138.95,441.24-143.59,450.34s-9.23,13.64-8.91-2.94Z"
+        />
+
+        <path
+          class="svgp pulse-pink"
+          style="
+            --ed: 1.1s;
+            --ed2: 0.6s;
+            --ia: float3;
+            --id: 9.1s;
+            --id2: 0.2s;
+            transform-origin: 1115px 555px;
+          "
+          fill="url(#lg16)"
+          d="M1083.15,530.94c-14.48,20.98.78,51.99,34.76,50.48s101.58-169.23,60.62-231.97c-13.03,45.31-62.18,133.37-95.38,181.49Z"
+        />
+        <path
+          class="svgp pulse-pink"
+          style="
+            --ed: 1.1s;
+            --ed2: 0.7s;
+            --ia: float4;
+            --id: 7.6s;
+            --id2: 0.6s;
+            transform-origin: 1100px 510px;
+          "
+          fill="url(#lg17)"
+          d="M1067,541.72c8.63,23.99,56.91,6.46,72.03-24.01,16.5-33.25,30.2-89.16,39.49-168.26-85.64,41.09-131.44,136.95-111.53,192.27Z"
+        />
+        <path
+          class="svgp pulse-pink"
+          style="
+            --ed: 1.1s;
+            --ed2: 0.8s;
+            --ia: float1;
+            --id: 8.4s;
+            --id2: 1s;
+            transform-origin: 1150px 525px;
+          "
+          fill="url(#lg18)"
+          d="M1098.95,514.71c-16.18,17.98-17.1,50.52,5.38,55.4s64.32.65,84.74-36.87c29.32-53.89,20.58-156.19,43.59-172.68-39.76,8.77-46.42,71.3-62.41,99.02-26.24,45.47-40.88,21.33-71.31,55.14Z"
+        />
+        <path
+          class="svgp pulse-pink"
+          style="
+            --ed: 1.1s;
+            --ed2: 0.9s;
+            --ia: float2;
+            --id: 9.6s;
+            --id2: 0.4s;
+            transform-origin: 1080px 535px;
+          "
+          fill="url(#lg19)"
+          d="M1112.19,530.18c-2.31,24.08-25.67,46.76-44.46,33.49-18.79-13.27-43.97-46.96-30.12-87.37,19.88-58.04,101.17-120.76,97.76-148.87,20.42,35.23-21.16,82.41-30.77,112.93-15.77,50.07,11.93,44.54,7.59,89.82Z"
+        />
+        <path
+          class="svgp pulse-pink"
+          style="
+            --ed: 1.1s;
+            --ed2: 1s;
+            --ia: float5;
+            --id: 8.8s;
+            --id2: 0.8s;
+            transform-origin: 1078px 540px;
+          "
+          fill="url(#lg20)"
+          d="M1113.01,534.25c3.36,23.95-14.07,51.45-35.44,42.92-21.36-8.53-53.69-35.43-49.64-77.96,5.82-61.07,70.27-140.99,60.41-167.54,28.06,29.5-1.39,85.07-3.63,116.99-3.68,52.37,21.97,40.54,28.29,85.58Z"
+        />
+        <path
+          class="svgp pulse-pink"
+          style="
+            --ed: 1.1s;
+            --ed2: 1.1s;
+            --ia: float6;
+            --id: 7.4s;
+            --id2: 1.4s;
+            transform-origin: 1250px 560px;
+          "
+          fill="url(#lg21)"
+          d="M1100.04,529.07c-18.93,15.06-25.22,47-3.86,55.53,21.36,8.53,63.33,11.28,89.67-22.35,37.83-48.3,46.13-150.63,71.56-163.09-40.67,2.07-57.57,62.64-77.93,87.33-33.4,40.51-43.85,14.27-79.45,42.58Z"
+        />
+
+        <path
+          class="svgp pulse-teal"
+          style="
+            --ed: 1.2s;
+            --ed2: 0.55s;
+            --ia: float4;
+            --id: 7.9s;
+            --id2: 0.9s;
+            transform-origin: 870px 900px;
+          "
+          fill="url(#lg22)"
+          d="M945.89,1032.04s-189.21-399.2-206.6-425.14c-17.39-25.94-15.22-5.26-9.18,4.6,6.04,9.87,201.5,416.42,207.4,424.74,5.9,8.32,11.11,12.16,8.38-4.2Z"
+        />
+
+        <path
+          class="svgp pulse-blue"
+          style="
+            --ed: 1.1s;
+            --ed2: 0.45s;
+            --ia: float5;
+            --id: 9.3s;
+            --id2: 0.3s;
+            transform-origin: 700px 570px;
+          "
+          fill="url(#lg23)"
+          d="M731.76,557.87c17.37,18.66,6.77,51.56-27.07,54.99-33.84,3.44-125.06-152.7-93.63-220.72,19.47,42.94,80.87,122.94,120.7,165.73Z"
+        />
+        <path
+          class="svgp pulse-blue"
+          style="
+            --ed: 1.1s;
+            --ed2: 0.55s;
+            --ia: float2;
+            --id: 7s;
+            --id2: 0.7s;
+            transform-origin: 695px 565px;
+          "
+          fill="url(#lg24)"
+          d="M749.3,566.2c-5.06,24.99-55.37,14.65-74.75-13.3-21.15-30.51-42.82-83.83-63.49-160.75,90.7,28.24,149.91,116.43,138.24,174.06Z"
+        />
+        <path
+          class="svgp pulse-blue"
+          style="
+            --ed: 1.1s;
+            --ed2: 0.65s;
+            --ia: float6;
+            --id: 8.6s;
+            --id2: 1.1s;
+            transform-origin: 660px 555px;
+          "
+          fill="url(#lg25)"
+          d="M713.76,544.11c18.62,15.44,24.25,47.51,2.72,55.59-21.53,8.08-63.55,9.97-89.2-24.19-36.83-49.07-43.02-151.55-68.19-164.53,40.61,2.91,56.27,63.82,76.11,88.92,32.55,41.18,43.54,15.17,78.55,44.21Z"
+        />
+        <path
+          class="svgp pulse-blue"
+          style="
+            --ed: 1.1s;
+            --ed2: 0.75s;
+            --ia: float1;
+            --id: 9.5s;
+            --id2: 0.5s;
+            transform-origin: 720px 565px;
+          "
+          fill="url(#lg26)"
+          d="M702.91,561.33c5.78,23.49,32.18,42.54,48.84,26.69,16.67-15.85,36.69-52.84,17.13-90.82-28.09-54.54-117.62-104.8-118.32-133.11-15.09,37.82,32.89,78.47,46.82,107.27,22.86,47.26-5.34,45.8,5.53,89.97Z"
+        />
+        <path
+          class="svgp pulse-blue"
+          style="
+            --ed: 1.1s;
+            --ed2: 0.85s;
+            --ia: float3;
+            --id: 8.2s;
+            --id2: 0.9s;
+            transform-origin: 725px 570px;
+          "
+          fill="url(#lg27)"
+          d="M702.69,565.48c.15,24.19,21.39,48.86,41.29,37.33,19.9-11.54,47.98-42.84,37.8-84.33-14.62-59.58-89.99-129.31-84.08-157-23.48,33.26,13.71,83.97,20.56,115.23,11.23,51.28-15.86,43.3-15.57,88.78Z"
+        />
+        <path
+          class="svgp pulse-blue"
+          style="
+            --ed: 1.1s;
+            --ed2: 0.95s;
+            --ia: float4;
+            --id: 7.1s;
+            --id2: 1.3s;
+            transform-origin: 665px 570px;
+          "
+          fill="url(#lg28)"
+          d="M714.77,558.48c20.91,12.15,31.77,42.84,11.87,54.38s-61.02,20.35-91.97-9.1c-44.44-42.3-67.49-142.35-94.46-150.99,40.54-3.85,66.05,53.63,89.77,75.1,38.92,35.23,45.45,7.76,84.78,30.61Z"
+        />
+      </svg>
+    </div>
+
+  
+    <script>
+      const canvas = document.getElementById("particles");
+      const ctx = canvas.getContext("2d");
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener("resize", resize);
+
+      const COLORS = [
+        "rgba(56,162,165,", 
+        "rgba(255,100,30,", 
+        "rgba(220,0,255,", 
+        "rgba(80,60,255,", 
+        "rgba(255,200,50,", 
+        "rgba(200,220,255,", 
+      ];
+
+      class Particle {
+        constructor() {
+          this.reset(true);
+        }
+        reset(init) {
+          this.x = Math.random() * canvas.width;
+          this.y = init ? Math.random() * canvas.height : canvas.height + 10;
+          this.r = 0.6 + Math.random() * 2.8;
+          this.speed = 0.18 + Math.random() * 0.9;
+          this.drift = (Math.random() - 0.5) * 0.28;
+          this.alpha = 0;
+          this.maxAlpha = 0.15 + Math.random() * 0.6;
+          this.life = 0;
+          this.maxLife = 160 + Math.random() * 280;
+          this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+          this.twinkle = Math.random() * Math.PI * 2;
+          this.twinkleSpeed = 0.02 + Math.random() * 0.04;
+        }
+        update() {
+          this.life++;
+          this.y -= this.speed;
+          this.x += this.drift;
+          this.twinkle += this.twinkleSpeed;
+          const half = this.maxLife * 0.3;
+          if (this.life < half) {
+            this.alpha = (this.life / half) * this.maxAlpha;
+          } else {
+            this.alpha =
+              (1 - (this.life - half) / (this.maxLife - half)) * this.maxAlpha;
+          }
+          const twinkleFactor = 0.7 + 0.3 * Math.sin(this.twinkle);
+          this.displayAlpha = this.alpha * twinkleFactor;
+          if (this.life >= this.maxLife || this.y < -12) this.reset(false);
+        }
+        draw() {
+          ctx.save();
+          ctx.globalAlpha = Math.max(0, this.displayAlpha);
+          const gr = ctx.createRadialGradient(
+            this.x,
+            this.y,
+            0,
+            this.x,
+            this.y,
+            this.r * 3,
+          );
+          gr.addColorStop(0, this.color + "1)");
+          gr.addColorStop(0.4, this.color + "0.6)");
+          gr.addColorStop(1, this.color + "0)");
+          ctx.fillStyle = gr;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.r * 3, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+      }
+
+      const MAX = 180;
+      const particles = Array.from({ length: MAX }, () => new Particle());
+
+      const sc = document.getElementById("shimmer");
+      const sctx = sc.getContext("2d");
+      function resizeS() {
+        sc.width = window.innerWidth;
+        sc.height = window.innerHeight;
+      }
+      resizeS();
+      window.addEventListener("resize", resizeS);
+
+      class ShimmerLine {
+        constructor() {
+          this.reset();
+        }
+        reset() {
+          this.x =
+            window.innerWidth * 0.3 + Math.random() * window.innerWidth * 0.4;
+          this.y = window.innerHeight + Math.random() * 100;
+          this.len = 40 + Math.random() * 120;
+          this.speed = 0.4 + Math.random() * 1.2;
+          this.alpha = 0;
+          this.maxAlpha = 0.03 + Math.random() * 0.08;
+          this.life = 0;
+          this.maxLife = 80 + Math.random() * 160;
+          this.hue =
+            Math.random() < 0.5 ? "rgba(56,162,165," : "rgba(148,60,255,";
+        }
+        update() {
+          this.life++;
+          this.y -= this.speed;
+          const half = this.maxLife * 0.25;
+          if (this.life < half) this.alpha = (this.life / half) * this.maxAlpha;
+          else
+            this.alpha =
+              (1 - (this.life - half) / (this.maxLife - half)) * this.maxAlpha;
+          if (this.life >= this.maxLife || this.y < -this.len) this.reset();
+        }
+        draw() {
+          sctx.save();
+          const gr = sctx.createLinearGradient(
+            this.x,
+            this.y + this.len,
+            this.x,
+            this.y,
+          );
+          gr.addColorStop(0, this.hue + "0)");
+          gr.addColorStop(0.5, this.hue + this.alpha + ")");
+          gr.addColorStop(1, this.hue + "0)");
+          sctx.strokeStyle = gr;
+          sctx.lineWidth = 0.5 + Math.random() * 0.5;
+          sctx.beginPath();
+          sctx.moveTo(this.x, this.y + this.len);
+          sctx.lineTo(this.x, this.y);
+          sctx.stroke();
+          sctx.restore();
+        }
+      }
+
+      const shimmerLines = Array.from({ length: 30 }, () => new ShimmerLine());
+
+      function loop() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        sctx.clearRect(0, 0, sc.width, sc.height);
+        for (const p of particles) {
+          p.update();
+          p.draw();
+        }
+        for (const s of shimmerLines) {
+          s.update();
+          s.draw();
+        }
+        requestAnimationFrame(loop);
+      }
+      loop();
+    </script>
+  </body>
+</html>
